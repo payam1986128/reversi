@@ -19,15 +19,10 @@ public class PlayRoomController {
     private PlayRoomService playRoomService;
 
     @MessageMapping("/register")
-    @SendTo("/topic/lets-play")
+    @SendTo("/topic/start")
     public PlayRoom register(String username) {
+        playRoomService.resetGame();
         return playRoomService.registerPlayer(username);
-    }
-
-    @MessageMapping("/play-again")
-    @SendTo("/topic/lets-play")
-    public PlayRoom playAgain() {
-        return playRoomService.resetGame();
     }
 
     @MessageMapping("/move")

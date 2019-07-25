@@ -25,8 +25,9 @@ public class PlayRoomService {
         return playRoom;
     }
 
-    public PlayRoom resetGame() {
-        return playRoom = new PlayRoom();
+    public void resetGame() {
+        playRoom = new PlayRoom();
+        playRoom.setNext(calcNextMoves(playRoom.getTurn()));
     }
 
     public PlayRoom move(MoveDetails details) throws Exception {
@@ -37,8 +38,12 @@ public class PlayRoomService {
             throw new Exception("It's not a valid movement");
         }
         doMove(playRoom.getBoard(), details);
-        setTurn(details);
-        playRoom.setNext(calcNextMoves(playRoom.getTurn()));
+        if (!isGameFinished()) {
+            setTurn(details);
+            playRoom.setNext(calcNextMoves(playRoom.getTurn()));
+        } else {
+            playRoom.setFinished(true);
+        }
         return playRoom;
     }
 
@@ -183,5 +188,11 @@ public class PlayRoomService {
         if (canOtherPlayerMove(details.getPlayer())) {
             playRoom.setTurn(-playRoom.getTurn());
         }
+    }
+
+    private boolean isGameFinished() {
+        return Arrays.stream(playRoom.getBoard())
+                .flatMapToInt(Arrays::stream)
+                .noneMatch(item -> item == 0);
     }
 }

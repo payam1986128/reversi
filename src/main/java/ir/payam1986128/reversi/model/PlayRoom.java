@@ -14,6 +14,7 @@ public class PlayRoom {
     private int[][] board = new int[8][8];
     private int[][] next = new int[8][8];
     private int turn = 1;
+    private boolean finished = false;
 
     public PlayRoom() {
         board[3][3] = 1;

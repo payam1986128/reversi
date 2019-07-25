@@ -1,0 +1,130 @@
+body {
+    background-color: #f5f5f5;
+    text-align: center;
+}
+
+#main-content {
+    max-width: 620px;
+    padding: 10px 3em;
+    margin: 0 auto 20px;
+    background-color: #fff;
+    border: 1px solid #e5e5e5;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.title {
+    font-size: 2em;
+    font-weight: 800;
+    display: inline-block;
+    margin-left: 50px;
+    vertical-align: middle;
+}
+
+#board {
+    background-color: darkgreen;
+    float: left;
+    width: 566px;
+    padding: 3px;
+    margin-top: 10px;
+    border-radius: 20px;
+}
+
+#board .row {
+    margin: 0;
+}
+
+#box-00 {
+    border-radius: 20px 10px 10px 10px;
+}
+
+#box-07 {
+    border-radius: 10px 20px 10px 10px;
+}
+
+#box-70 {
+    border-radius: 10px 10px 10px 20px;
+}
+
+#box-77 {
+    border-radius: 10px 10px 20px 10px;
+}
+
+.box {
+    background-color: darkcyan;
+    width: 70px;
+    height: 70px;
+    float: left;
+    border: solid darkgreen 2px;
+    border-radius: 10px;
+    box-shadow: inset 1px 2px 6px 1px #000;
+    padding: 3px;
+    cursor: auto;
+}
+
+#turn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#turn.black {
+    border: solid 1px #555;
+    background-image: linear-gradient(to right, #111, #888);
+}
+
+#turn.white {
+    border: solid 1px #ddd;
+    background-image: linear-gradient(to left, #fff, #ccc);
+}
+
+.flip-circle {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    border-radius: 50%;
+    transition: transform 0.5s;
+    transform-style: preserve-3d;
+}
+
+.white-circle {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: solid 1px #aaa;
+    background-image: linear-gradient(to left, #eee, #888);
+    backface-visibility: hidden;
+}
+
+.black-circle {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: solid 1px #555;
+    background-image: linear-gradient(to right, #111, #888);
+    backface-visibility: hidden;
+}
+
+.box.black .black-circle {
+    transform: rotateY(0);
+}
+
+.box.black .white-circle {
+    transform: rotateY(180deg);
+}
+
+.box.white .black-circle {
+    transform: rotateY(180deg);
+}
+
+.box.white .white-circle {
+    transform: rotateY(0);
+}
+
+.box.next {
+    cursor: pointer;
+}
