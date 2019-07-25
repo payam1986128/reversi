@@ -12,6 +12,7 @@ public class PlayRoom {
     private Player playerA;
     private Player playerB;
     private int[][] board = new int[8][8];
+    private int[][] next = new int[8][8];
     private int turn = 1;
 
     public PlayRoom() {
@@ -21,11 +22,4 @@ public class PlayRoom {
         board[3][4] = -1;
     }
 
-    public boolean isItYourTurn(int playerFlag) {
-        return playerFlag == turn;
-    }
-
-    public void calcOptions() {
-
-    }
 }
