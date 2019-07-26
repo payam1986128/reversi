@@ -21,7 +21,7 @@ public class PlayRoomController {
     @MessageMapping("/register")
     @SendTo("/topic/start")
     public PlayRoom register(String username) {
-        playRoomService.resetGame();
+        playRoomService.startGame();
         return playRoomService.registerPlayer(username);
     }
 

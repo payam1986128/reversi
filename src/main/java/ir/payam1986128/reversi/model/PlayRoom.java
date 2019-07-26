@@ -23,6 +23,19 @@ public class PlayRoom {
         board[3][4] = -1;
     }
 
+    public void reset() {
+        playerA = null;
+        playerB = null;
+        board = new int[8][8];
+        board[3][3] = 1;
+        board[4][4] = 1;
+        board[4][3] = -1;
+        board[3][4] = -1;
+        next = new int[8][8];
+        turn = 1;
+        finished = false;
+    }
+
     public static PlayRoom getInstance() {
         return PlayRoomHolder.instance;
     }

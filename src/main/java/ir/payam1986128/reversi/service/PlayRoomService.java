@@ -26,8 +26,10 @@ public class PlayRoomService {
         return playRoom;
     }
 
-    public void resetGame() {
-        playRoom = PlayRoom.getInstance();
+    public void startGame() {
+        if (playRoom.isFinished()) {
+            playRoom.reset();
+        }
         playRoom.setNext(calcNextMoves(playRoom.getTurn()));
     }
 
