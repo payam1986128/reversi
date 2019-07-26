@@ -100,7 +100,8 @@ function doMove(playRoom) {
     }
     var turn = (playRoom.turn === myFlag) ? 'Your turn' : (otherUsername + "'s turn");
     $('#turn').html(turn);
-    $( ".box.next" ).click(function() { move($(this)); });
+    $('.box').off('click');
+    $(".box.next").off('click').on('click', function() { move($(this)); });
     if (playRoom.finished === true) {
         disconnect();
     }
