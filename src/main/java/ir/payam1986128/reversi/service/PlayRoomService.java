@@ -107,12 +107,12 @@ public class PlayRoomService {
                 startJ = details.getY() - Math.min(details.getX(), details.getY());
         outer: for (int i = 0; i < Math.min(details.getX(), details.getY()); i++) {
             if (board[startI + i][startJ + i] == details.getPlayer()) {
-                for (int j = 1; j < Math.min(details.getX(), details.getY()); j++) {
+                for (int j = i+1; j < Math.min(details.getX(), details.getY()); j++) {
                     if (board[startI + j][startJ + j] != -details.getPlayer()) {
                         continue outer;
                     }
                 }
-                for (int j = 1; j < Math.min(details.getX(), details.getY()); j++) {
+                for (int j = i+1; j < Math.min(details.getX(), details.getY()); j++) {
                     target[startI + j][startJ + j] = details.getPlayer();
                     changed = true;
                 }
@@ -122,12 +122,12 @@ public class PlayRoomService {
                 endJ = details.getY() + (7 - Math.max(details.getX(), details.getY()));
         outer: for (int i = 0; i < (7 - Math.max(details.getX(), details.getY())); i++) {
             if (board[endI - i][endJ - i] == details.getPlayer()) {
-                for (int j = 1; j < (7 - Math.max(details.getX(), details.getY())); j++) {
+                for (int j = i+1; j < (7 - Math.max(details.getX(), details.getY())); j++) {
                     if (board[endI - j][endJ - j] != -details.getPlayer()) {
                         continue outer;
                     }
                 }
-                for (int j = 1; j < (7 - Math.max(details.getX(), details.getY())); j++) {
+                for (int j = i+1; j < (7 - Math.max(details.getX(), details.getY())); j++) {
                     target[endI - j][endJ - j] = details.getPlayer();
                     changed = true;
                 }
@@ -137,12 +137,12 @@ public class PlayRoomService {
         startJ = details.getX() + details.getY() - startI;
         outer: for (int i = 0; i < (startI - details.getX()); i++) {
             if (board[startI - i][startJ + i] == details.getPlayer()) {
-                for (int j = 1; j < (startI - details.getX()); j++) {
+                for (int j = i+1; j < (startI - details.getX()); j++) {
                     if (board[startI - j][startJ + j] != -details.getPlayer()) {
                         continue outer;
                     }
                 }
-                for (int j = 1; j < (startI - details.getX()); j++) {
+                for (int j = i+1; j < (startI - details.getX()); j++) {
                     target[startI - j][startJ + j] = details.getPlayer();
                     changed = true;
                 }
@@ -152,12 +152,12 @@ public class PlayRoomService {
         endJ = startI;
         outer: for (int i = 0; i < (endJ - details.getY()); i++) {
             if (board[endI + i][endJ - i] == details.getPlayer()) {
-                for (int j = 1; j < (endJ - details.getY()); j++) {
+                for (int j = i+1; j < (endJ - details.getY()); j++) {
                     if (board[endI + j][endJ - j] != -details.getPlayer()) {
                         continue outer;
                     }
                 }
-                for (int j = 1; j < (endJ - details.getY()); j++) {
+                for (int j = i+1; j < (endJ - details.getY()); j++) {
                     target[endI + j][endJ - j] = details.getPlayer();
                     changed = true;
                 }
