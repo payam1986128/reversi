@@ -1,5 +1,6 @@
 var stompClient = null;
 var myUsername = null;
+var otherUsername = null;
 var myFlag = null;
 var myPieceColor = null;
 var otherPieceColor = null;
@@ -10,7 +11,8 @@ function connect() {
     stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);
         register();
-        $("#start").prop("disabled", true);
+        $("#startForm").css("display", "none");
+        $("#gameState").css("display", "block");
         stompClient.subscribe('/topic/start', function (playRoom) {
             initial(JSON.parse(playRoom.body));
         });
@@ -24,13 +26,14 @@ function disconnect() {
     if (stompClient !== null) {
         stompClient.disconnect();
     }
-    $("#start").prop("disabled", false);
+    $("#startForm").css("display", "block");
+    $("#gameState").css("display", "none");
     console.log("Disconnected");
 }
 
 function register() {
     myUsername = $("#username").val();
-    stompClient.send("/game/register", {}, JSON.stringify({'username': myUsername}));
+    stompClient.send("/game/register", {}, myUsername);
 }
 
 function initial(playRoom) {
@@ -38,28 +41,32 @@ function initial(playRoom) {
     board.empty();
     if (playRoom.playerA !== null && playRoom.playerB !== null) {
         myFlag = playRoom.playerA.name === myUsername ? playRoom.playerA.flag : playRoom.playerB.flag;
+        otherUsername = playRoom.playerA.name === myUsername ? playRoom.playerB.name : playRoom.playerA.name;
         myPieceColor = myFlag === 1 ? 'white' : 'black';
         otherPieceColor = myFlag === 1 ? 'black' : 'white';
-    }
-    for (var i = 0; i < 8; i++) {
-        board.append("<div id='row-" + i + "' class='row'></div>");
-        for (var j = 0; j < 8; j++) {
-            var pieceColor = '';
-            if (playRoom.board[i][j] === myFlag) {
-                pieceColor = myPieceColor;
-            } else if (playRoom.board[i][j] === -myFlag) {
-                pieceColor = otherPieceColor;
+        $('#myPieceColor').addClass(myPieceColor);
+
+        for (var i = 0; i < 8; i++) {
+            board.append("<div id='row-" + i + "' class='row'></div>");
+            for (var j = 0; j < 8; j++) {
+                var pieceColor = 'none';
+                if (playRoom.board[i][j] === myFlag) {
+                    pieceColor = myPieceColor;
+                } else if (playRoom.board[i][j] === -myFlag) {
+                    pieceColor = otherPieceColor;
+                }
+                var nextClass = (playRoom.next[i][j] === 2*myFlag ? 'next' : '');
+                $("#row-"+i).append(
+                    "<div id='box-" + i + j + "' class='box " + pieceColor + ' ' + nextClass + "'>" +
+                        "<div class='flip-circle'>" +
+                            "<div class='black-circle'></div>" +
+                            "<div class='white-circle'></div>" +
+                        "</div>" +
+                    "</div>"
+                );
             }
-            var nextClass = (playRoom.next[i][j] === 2*myFlag ? 'next' : '');
-            $("#row-"+i).append(
-                "<div id='box-" + i + j + "' class='box " + pieceColor + ' ' + nextClass + "'>" +
-                    "<div class='flip-circle'>" +
-                        "<div class='black-circle'></div>" +
-                        "<div class='white-circle'></div>" +
-                    "</div>" +
-                "</div>"
-            );
         }
+        console.log("Board is just been drawn!")
     }
 }
 
@@ -84,9 +91,13 @@ function doMove(playRoom) {
             } else if (playRoom.board[i][j] === -myFlag && box.attr('class').indexOf(otherPieceColor) === -1) {
                 box.removeClass(myPieceColor);
                 box.addClass(otherPieceColor);
+            } else if (Math.abs(playRoom.board[i][j]) === myFlag && box.attr('class').indexOf('none') > -1) {
+                box.removeClass('none');
             }
         }
     }
+    var turn = (playRoom.turn === myFlag) ? 'Your turn' : (otherUsername + ' turn');
+    $('#turn').html(turn);
     if (playRoom.finished === true) {
         disconnect();
     }

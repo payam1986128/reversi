@@ -14,10 +14,14 @@ body {
     border-radius: 5px;
 }
 
-.title {
+#startForm {
+    display: block;
+}
+
+#gameState {
+    display: none;
     font-size: 2em;
     font-weight: 800;
-    display: inline-block;
     margin-left: 50px;
     vertical-align: middle;
 }
@@ -63,7 +67,7 @@ body {
     cursor: auto;
 }
 
-#turn {
+#myPieceColor {
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -71,12 +75,12 @@ body {
     vertical-align: middle;
 }
 
-#turn.black {
+#myPieceColor.black {
     border: solid 1px #555;
     background-image: linear-gradient(to right, #111, #888);
 }
 
-#turn.white {
+#myPieceColor.white {
     border: solid 1px #ddd;
     background-image: linear-gradient(to left, #fff, #ccc);
 }
@@ -91,6 +95,10 @@ body {
     transform-style: preserve-3d;
 }
 
+.box.none .flip-circle {
+    display: none;
+}
+
 .white-circle {
     width: 100%;
     height: 100%;
@@ -98,6 +106,7 @@ body {
     border: solid 1px #aaa;
     background-image: linear-gradient(to left, #eee, #888);
     backface-visibility: hidden;
+    position: absolute;
 }
 
 .black-circle {
@@ -107,22 +116,23 @@ body {
     border: solid 1px #555;
     background-image: linear-gradient(to right, #111, #888);
     backface-visibility: hidden;
+    position: absolute;
 }
 
-.box.black .black-circle {
-    transform: rotateY(0);
-}
-
-.box.black .white-circle {
+.box.black .flip-circle {
     transform: rotateY(180deg);
 }
 
-.box.white .black-circle {
+.box.white .flip-circle {
+    transform: rotateY(-180deg);
+}
+
+.box.black .black-circle {
     transform: rotateY(180deg);
 }
 
 .box.white .white-circle {
-    transform: rotateY(0);
+    transform: rotateY(-180deg);
 }
 
 .box.next {

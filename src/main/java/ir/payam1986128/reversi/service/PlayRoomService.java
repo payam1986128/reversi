@@ -14,7 +14,7 @@ import java.util.Arrays;
 @Service
 public class PlayRoomService {
 
-    private static PlayRoom playRoom = new PlayRoom();
+    private static PlayRoom playRoom = PlayRoom.getInstance();
 
     public PlayRoom registerPlayer(String username) {
         if (playRoom.getPlayerA() == null) {
@@ -26,7 +26,7 @@ public class PlayRoomService {
     }
 
     public void resetGame() {
-        playRoom = new PlayRoom();
+        playRoom = PlayRoom.getInstance();
         playRoom.setNext(calcNextMoves(playRoom.getTurn()));
     }
 
@@ -160,7 +160,7 @@ public class PlayRoomService {
         int[][] next = new int[8][8];
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                int[][] board = playRoom.getBoard().clone();
+                int[][] board = playRoom.copyBoard();
                 if (board[i][j] == 0 && doMove(board, new MoveDetails(player, i, j))) {
                     next[i][j] = 2*player;
                 }

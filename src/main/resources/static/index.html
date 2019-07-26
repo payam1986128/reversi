@@ -13,7 +13,7 @@
 <noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Please enable
     Javascript and reload this page!</h2></noscript>
 <div id="main-content" class="container">
-    <div class="row">
+    <div id="startForm" class="row">
         <form class="form-inline">
             <div class="form-group">
                 <div class="form-group">
@@ -21,10 +21,17 @@
                     <input id="username" class="form-control" type="text" placeholder="Enter your username" />
                 </div>
                 <button id="start" class="btn btn-default" type="submit">Start</button>
-                <div class="col title">Turn:</div>
-                <div id="turn" class="col black"></div>
             </div>
         </form>
+    </div>
+    <div id="gameState" class="row">
+        <div style="float: left">
+            <div class="col" style="display: inline-block">Turn:</div>
+            <div id="myPieceColor" class="col black"></div>
+        </div>
+        <div style="float: right; height: 40px; vertical-align: middle">
+            <div id="turn" class="col">Your turn</div>
+        </div>
     </div>
     <div class="row">
         <div id="board">
