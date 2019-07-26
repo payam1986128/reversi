@@ -66,6 +66,7 @@ function initial(playRoom) {
                 );
             }
         }
+        $( ".box.next" ).click(function() { move($(this)); });
         console.log("Board is just been drawn!")
     }
 }
@@ -91,13 +92,15 @@ function doMove(playRoom) {
             } else if (playRoom.board[i][j] === -myFlag && box.attr('class').indexOf(otherPieceColor) === -1) {
                 box.removeClass(myPieceColor);
                 box.addClass(otherPieceColor);
-            } else if (Math.abs(playRoom.board[i][j]) === myFlag && box.attr('class').indexOf('none') > -1) {
+            }
+            if (Math.abs(playRoom.board[i][j]) === Math.abs(myFlag) && box.attr('class').indexOf('none') > -1) {
                 box.removeClass('none');
             }
         }
     }
-    var turn = (playRoom.turn === myFlag) ? 'Your turn' : (otherUsername + ' turn');
+    var turn = (playRoom.turn === myFlag) ? 'Your turn' : (otherUsername + "'s turn");
     $('#turn').html(turn);
+    $( ".box.next" ).click(function() { move($(this)); });
     if (playRoom.finished === true) {
         disconnect();
     }
@@ -108,6 +111,5 @@ $(function () {
         e.preventDefault();
     });
     $( "#start" ).click(function() { connect(); });
-    $( ".box.next" ).click(function() { move($(this)); });
 });
 

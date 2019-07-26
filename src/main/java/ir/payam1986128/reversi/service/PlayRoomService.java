@@ -3,6 +3,7 @@ package ir.payam1986128.reversi.service;
 import ir.payam1986128.reversi.model.MoveDetails;
 import ir.payam1986128.reversi.model.PlayRoom;
 import ir.payam1986128.reversi.model.Player;
+import ir.payam1986128.util.ArrayUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -48,111 +49,124 @@ public class PlayRoomService {
     }
 
     private boolean doMove(int[][] board, MoveDetails details) {
+        int[][] target = ArrayUtil.copy(board);
         boolean changed = false;
-        for (int i = 0; i < details.getX(); i++) {
+        outer: for (int i = 0; i < details.getX(); i++) {
             if (board[i][details.getY()] == details.getPlayer()) {
                 for (int j = i+1; j < details.getX(); j++) {
                     if (board[j][details.getY()] != -details.getPlayer()) {
-                        break;
+                        continue outer;
                     }
                 }
                 for (int j = i+1; j < details.getX(); j++) {
-                    board[j][details.getY()] = details.getPlayer();
+                    target[j][details.getY()] = details.getPlayer();
                     changed = true;
                 }
             }
         }
-        for (int i = 7; i > details.getX(); i--) {
+        outer: for (int i = 7; i > details.getX(); i--) {
             if (board[i][details.getY()] == details.getPlayer()) {
                 for (int j = i-1; j > details.getX(); j--) {
                     if (board[j][details.getY()] != -details.getPlayer()) {
-                        break;
+                        continue outer;
                     }
                 }
                 for (int j = i-1; j > details.getX(); j--) {
-                    board[j][details.getY()] = details.getPlayer();
+                    target[j][details.getY()] = details.getPlayer();
                     changed = true;
                 }
             }
         }
-        for (int i = 0; i < details.getY(); i++) {
+        outer: for (int i = 0; i < details.getY(); i++) {
             if (board[details.getX()][i] == details.getPlayer()) {
                 for (int j = i+1; j < details.getY(); j++) {
                     if (board[details.getX()][j] != -details.getPlayer()) {
-                        break;
+                        continue outer;
                     }
                 }
                 for (int j = i+1; j < details.getY(); j++) {
-                    board[details.getX()][j] = details.getPlayer();
+                    target[details.getX()][j] = details.getPlayer();
                     changed = true;
                 }
             }
         }
-        for (int i = 7; i > details.getY(); i--) {
+        outer: for (int i = 7; i > details.getY(); i--) {
             if (board[details.getX()][i] == details.getPlayer()) {
                 for (int j = i-1; j > details.getY(); j--) {
                     if (board[details.getX()][j] != -details.getPlayer()) {
-                        break;
+                        continue outer;
                     }
                 }
                 for (int j = i-1; j > details.getY(); j--) {
-                    board[details.getX()][j] = details.getPlayer();
+                    target[details.getX()][j] = details.getPlayer();
                     changed = true;
                 }
             }
         }
         int startI = details.getX() - Math.min(details.getX(), details.getY()),
                 startJ = details.getY() - Math.min(details.getX(), details.getY());
-        if (board[startI][startJ] == details.getPlayer()) {
-            for (int i = 1; i < Math.min(details.getX(), details.getY()); i++) {
-                if (board[startI + i][startJ + i] != -details.getPlayer()) {
-                    break;
+        outer: for (int i = 0; i < Math.min(details.getX(), details.getY()); i++) {
+            if (board[startI + i][startJ + i] == details.getPlayer()) {
+                for (int j = 1; j < Math.min(details.getX(), details.getY()); j++) {
+                    if (board[startI + j][startJ + j] != -details.getPlayer()) {
+                        continue outer;
+                    }
                 }
-            }
-            for (int i = 1; i < Math.min(details.getX(), details.getY()); i++) {
-                board[startI + i][startJ + i] = details.getPlayer();
-                changed = true;
+                for (int j = 1; j < Math.min(details.getX(), details.getY()); j++) {
+                    target[startI + j][startJ + j] = details.getPlayer();
+                    changed = true;
+                }
             }
         }
         int endI = details.getX() + (7 - Math.max(details.getX(), details.getY())),
                 endJ = details.getY() + (7 - Math.max(details.getX(), details.getY()));
-        if (board[endI][endJ] == details.getPlayer()) {
-            for (int i = 1; i < (7 - Math.max(details.getX(), details.getY())); i++) {
-                if (board[endI - i][endJ - i] != -details.getPlayer()) {
-                    break;
+        outer: for (int i = 0; i < (7 - Math.max(details.getX(), details.getY())); i++) {
+            if (board[endI - i][endJ - i] == details.getPlayer()) {
+                for (int j = 1; j < (7 - Math.max(details.getX(), details.getY())); j++) {
+                    if (board[endI - j][endJ - j] != -details.getPlayer()) {
+                        continue outer;
+                    }
                 }
-            }
-            for (int i = 1; i < (7 - Math.max(details.getX(), details.getY())); i++) {
-                board[endI - i][endJ - i] = details.getPlayer();
-                changed = true;
+                for (int j = 1; j < (7 - Math.max(details.getX(), details.getY())); j++) {
+                    target[endI - j][endJ - j] = details.getPlayer();
+                    changed = true;
+                }
             }
         }
         startI = Math.min(7, details.getX() + details.getY());
         startJ = details.getX() + details.getY() - startI;
-        if (board[startI][startJ] == details.getPlayer()) {
-            for (int i = 1; i < (startI - details.getX()); i++) {
-                if (board[startI - i][startJ + i] != -details.getPlayer()) {
-                    break;
+        outer: for (int i = 0; i < (startI - details.getX()); i++) {
+            if (board[startI - i][startJ + i] == details.getPlayer()) {
+                for (int j = 1; j < (startI - details.getX()); j++) {
+                    if (board[startI - j][startJ + j] != -details.getPlayer()) {
+                        continue outer;
+                    }
                 }
-            }
-            for (int i = 1; i < (startI - details.getX()); i++) {
-                board[startI - i][startJ + i] = details.getPlayer();
-                changed = true;
+                for (int j = 1; j < (startI - details.getX()); j++) {
+                    target[startI - j][startJ + j] = details.getPlayer();
+                    changed = true;
+                }
             }
         }
         endI = startJ;
         endJ = startI;
-        if (board[endI][endJ] == details.getPlayer()) {
-            for (int i = 1; i < (endJ - details.getY()); i++) {
-                if (board[endI + i][endJ - i] != -details.getPlayer()) {
-                    break;
+        outer: for (int i = 0; i < (endJ - details.getY()); i++) {
+            if (board[endI + i][endJ - i] == details.getPlayer()) {
+                for (int j = 1; j < (endJ - details.getY()); j++) {
+                    if (board[endI + j][endJ - j] != -details.getPlayer()) {
+                        continue outer;
+                    }
+                }
+                for (int j = 1; j < (endJ - details.getY()); j++) {
+                    target[endI + j][endJ - j] = details.getPlayer();
+                    changed = true;
                 }
             }
-            for (int i = 1; i < (endJ - details.getY()); i++) {
-                board[endI + i][endJ - i] = details.getPlayer();
-                changed = true;
-            }
         }
+        if (changed) {
+            target[details.getX()][details.getY()] = details.getPlayer();
+        }
+        ArrayUtil.copy(target, board);
         return changed;
     }
 
@@ -160,7 +174,7 @@ public class PlayRoomService {
         int[][] next = new int[8][8];
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                int[][] board = playRoom.copyBoard();
+                int[][] board = ArrayUtil.copy(playRoom.getBoard());
                 if (board[i][j] == 0 && doMove(board, new MoveDetails(player, i, j))) {
                     next[i][j] = 2*player;
                 }
