@@ -10,15 +10,17 @@ function connect() {
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);
-        register();
         $("#startForm").css("display", "none");
         $("#gameState").css("display", "block");
         stompClient.subscribe('/topic/start', function (playRoom) {
             initial(JSON.parse(playRoom.body));
+            console.log("Start message received");
         });
         stompClient.subscribe('/topic/move', function (playRoom) {
             doMove(JSON.parse(playRoom.body));
+            console.log("Move message received");
         });
+        register();
     });
 }
 
