@@ -3,7 +3,7 @@ package ir.payam1986128.reversi.service;
 import ir.payam1986128.reversi.model.MoveDetails;
 import ir.payam1986128.reversi.model.PlayRoom;
 import ir.payam1986128.reversi.model.Player;
-import ir.payam1986128.util.ArrayUtil;
+import ir.payam1986128.reversi.util.ArrayUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;

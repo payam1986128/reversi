@@ -1,4 +1,4 @@
-package ir.payam1986128.util;
+package ir.payam1986128.reversi.util;
 
 /**
  * Created by Payam Mostafaei

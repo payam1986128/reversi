@@ -45,6 +45,8 @@ function initial(playRoom) {
         myPieceColor = myFlag === 1 ? 'white' : 'black';
         otherPieceColor = myFlag === 1 ? 'black' : 'white';
         $('#myPieceColor').addClass(myPieceColor);
+        var turn = (playRoom.turn === myFlag) ? 'Your turn' : (otherUsername + "'s turn");
+        $('#turn').html(turn);
 
         for (var i = 0; i < 8; i++) {
             board.append("<div id='row-" + i + "' class='row'></div>");
